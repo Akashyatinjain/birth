@@ -6,6 +6,10 @@ import laghdi3 from '../assets/laghdi3.png';
 import laghdi4 from '../assets/laghdi4.png';
 import chintuChatur from '../assets/chintu_chatur.png';
 import kidnapper from '../assets/kidnapper.png';
+import meme1 from '../assets/meme1.png';
+import meme2 from '../assets/meme2.png';
+import meme3 from '../assets/meme3.png';
+import meme4 from '../assets/meme4.png';
 
 const MemeGallery = () => {
   const memes = [
@@ -50,6 +54,34 @@ const MemeGallery = () => {
       title: "Bachche Kidnap Karti Hai",
       subtitle: "FBI Most Wanted",
       caption: "Laghdi casually collecting children like Pokémon. 'Gotta catch 'em all!' Parents, hide your kids — Drishti is on the loose! 🚨"
+    },
+    {
+      id: 7,
+      image: meme1,
+      title: "Cooking up Features",
+      subtitle: "Full-Stack Chef",
+      caption: "Me cooking up a new full-stack feature at 3 AM and hoping everything stays together."
+    },
+    {
+      id: 8,
+      image: meme2,
+      title: "Juice Bar Smile",
+      subtitle: "Code Compiles",
+      caption: "My face when the code compiles successfully on the first try."
+    },
+    {
+      id: 9,
+      image: meme3,
+      title: "Hair in the Wind",
+      subtitle: "AWS Billing Panic",
+      caption: "Running as fast as possible to shut down the AWS instance before the billing cycle hits."
+    },
+    {
+      id: 10,
+      image: meme4,
+      title: "Productivity & Back Pain",
+      subtitle: "The Developer Posture",
+      caption: "Caught between maximum productivity and severe back pain while coding in bed."
     }
   ];
 

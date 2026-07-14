@@ -6,22 +6,47 @@ const HeroSection = ({ isOpened, onOpen }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, isBirthday: false });
   const [shakeBox, setShakeBox] = useState(false);
 
-  // Compute countdown to July 12th
+  // Compute countdown to July 15th
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
       const currentYear = now.getFullYear();
-      let targetDate = new Date(currentYear, 6, 12); 
+      let targetDate = new Date(currentYear, 6, 15); 
 
-      if (now > targetDate && now.getDate() !== 12) {
+      // If it's past July 18th, count down to next year's birthday
+      if (now > new Date(currentYear, 6, 18)) {
         targetDate.setFullYear(currentYear + 1);
       }
 
-      const isBday = now.getMonth() === 6 && now.getDate() === 12;
       const difference = targetDate - now;
 
-      if (isBday) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, isBirthday: true });
+      // Check if it's the birthday week/season (July 15 - July 18)
+      const isBirthdayRange = now.getMonth() === 6 && (now.getDate() >= 15 && now.getDate() <= 18);
+
+      if (isBirthdayRange) {
+        let celebrationMessage = "🎉 IT'S HER BIRTHDAY TODAY! 🎉";
+        let subMessage = "Drishti Kakkar turns a year older and wiser (debatable)! Time to celebrate!";
+        
+        if (now.getDate() === 16) {
+          celebrationMessage = "🎉 BIRTHDAY CELEBRATION ACTIVE! 🎉";
+          subMessage = "Drishti's birthday was yesterday! The party is still going strong!";
+        } else if (now.getDate() === 17) {
+          celebrationMessage = "🎉 BIRTHDAY CELEBRATION ACTIVE! 🎉";
+          subMessage = "Drishti's birthday was 2 days ago! Keep celebrating!";
+        } else if (now.getDate() === 18) {
+          celebrationMessage = "🎉 BIRTHDAY CELEBRATION ACTIVE! 🎉";
+          subMessage = "Drishti's birthday was 3 days ago! Last day of the birthday season!";
+        }
+
+        setTimeLeft({ 
+          days: 0, 
+          hours: 0, 
+          minutes: 0, 
+          seconds: 0, 
+          isBirthday: true, 
+          celebrationMessage, 
+          subMessage 
+        });
         return;
       }
 
@@ -106,7 +131,7 @@ const HeroSection = ({ isOpened, onOpen }) => {
         <div className="flex flex-col items-center animate-fade-in">
           <div className="hero-incoming-badge">
             <span className="hero-incoming-dot" />
-            <span>Surprise inside • July 12th</span>
+            <span>Surprise inside • July 15th</span>
           </div>
           
           <h1 className="hero-main-title text-center">
@@ -151,16 +176,16 @@ const HeroSection = ({ isOpened, onOpen }) => {
           <div className="countdown-box">
             <div className="countdown-header">
               <Calendar size={16} style={{ color: 'var(--primary)' }} />
-              <span>Countdown to July 12th</span>
+              <span>{timeLeft.isBirthday ? "🎉 HAPPY BIRTHDAY! 🎉" : "Countdown to July 15th"}</span>
             </div>
 
             {timeLeft.isBirthday ? (
               <div className="text-center" style={{ padding: '16px 0' }}>
                 <h3 className="animate-text-gradient" style={{ fontSize: '2.5rem', fontWeight: 900 }}>
-                  🎉 IT'S HER BIRTHDAY TODAY! 🎉
+                  {timeLeft.celebrationMessage}
                 </h3>
                 <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>
-                  Drishti Kakkar turns a year older and wiser (debatable)! Time to celebrate!
+                  {timeLeft.subMessage}
                 </p>
               </div>
             ) : (
