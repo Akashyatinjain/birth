@@ -253,6 +253,68 @@ const MemeGallery = () => {
               >
                 <RefreshCw size={16} />
               </button>
+            
+                <button
+                  onClick={async () => {
+                    if (isGenerating) return;
+                    setIsGenerating(true);
+                    for (const m of memes) {
+                      // draw each meme to an offscreen canvas and trigger download
+                      await new Promise((res) => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const img = new Image();
+                        img.crossOrigin = 'anonymous';
+                        img.src = m.image;
+                        img.onload = () => {
+                          const maxW = 800;
+                          const scale = maxW / img.width;
+                          canvas.width = maxW;
+                          canvas.height = img.height * scale;
+
+                          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                          ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+                          ctx.fillRect(0, 0, canvas.width, 70);
+                          ctx.fillRect(0, canvas.height - 70, canvas.width, 70);
+
+                          ctx.font = '900 36px "Outfit", Impact, sans-serif';
+                          ctx.fillStyle = '#ffffff';
+                          ctx.strokeStyle = '#000000';
+                          ctx.lineWidth = 6;
+                          ctx.textAlign = 'center';
+                          ctx.textBaseline = 'middle';
+
+                          const top = (m.title || topText).toUpperCase();
+                          const bottom = (m.caption || bottomText).toUpperCase();
+
+                          ctx.strokeText(top, canvas.width / 2, 35);
+                          ctx.fillText(top, canvas.width / 2, 35);
+
+                          ctx.strokeText(bottom, canvas.width / 2, canvas.height - 35);
+                          ctx.fillText(bottom, canvas.width / 2, canvas.height - 35);
+
+                          const dataURL = canvas.toDataURL('image/png');
+                          const link = document.createElement('a');
+                          const safeName = (m.title || `meme_${m.id}`).replace(/\s+/g, '_').toLowerCase();
+                          link.download = `${safeName}_${m.id}.png`;
+                          link.href = dataURL;
+                          link.click();
+                          // small delay so browsers don't block rapid downloads
+                          setTimeout(res, 350);
+                        };
+                        img.onerror = () => res();
+                      });
+                    }
+                    setIsGenerating(false);
+                  }}
+                  disabled={isGenerating}
+                  className="btn-neon btn-neon-outline"
+                  style={{ padding: '14px' }}
+                  title="Generate memes for all photos"
+                >
+                  <Download size={16} /> Generate All
+                </button>
             </div>
           </div>
         </div>
