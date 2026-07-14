@@ -11,7 +11,7 @@ const HeroSection = ({ isOpened, onOpen }) => {
     const calculateTimeLeft = () => {
       const now = new Date();
       const currentYear = now.getFullYear();
-      let targetDate = new Date(currentYear, 6, 12); // July is month 6 (0-indexed)
+      let targetDate = new Date(currentYear, 6, 12); 
 
       if (now > targetDate && now.getDate() !== 12) {
         targetDate.setFullYear(currentYear + 1);
